@@ -387,7 +387,7 @@ export function ConfiguratorShell({ product, materials, initial }: Props) {
         lines={lines}
         estimate={estimate}
         capture={() => captureRef.current?.() ?? null}
-        designUrl={designUrl}
+        designUrl={() => designUrl}
       />
     </div>
   );
