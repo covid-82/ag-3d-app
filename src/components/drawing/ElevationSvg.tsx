@@ -26,6 +26,8 @@ export function ElevationSvg({ result, config, materials, annotate = true, class
     shade: shade(hex(config.bodyMaterial), 0.8),
     hardware: "#2a2b2b",
     glass: "rgba(190,215,225,0.55)",
+    rattan: "#d4a76a",
+    accent: "#3a3a3a",
   };
 
   const W = config.width;
