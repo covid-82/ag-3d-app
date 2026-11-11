@@ -22,6 +22,7 @@ interface Props {
   config: DesignConfig;
   materials: MaterialOption[];
   mode?: "editor" | "showcase";
+  isInteractiveDefault?: boolean;
   onOpenAngleChange?: (angle: number) => void;
   captureRef?: React.MutableRefObject<(() => string | null) | null>;
   className?: string;
@@ -40,6 +41,7 @@ export function Viewport({
   config,
   materials,
   mode = "editor",
+  isInteractiveDefault = false,
   onOpenAngleChange,
   captureRef,
   className,
@@ -54,7 +56,10 @@ export function Viewport({
   const humanGroupRef = useRef<THREE.Group | null>(null);
   const animatedObjectsRef = useRef<AnimatedObject[]>([]);
 
-  const [showDimensions, setShowDimensions] = useState(true);
+  const [isInteractive, setIsInteractive] = useState(
+    mode === "editor" || Boolean(isInteractiveDefault)
+  );
+  const [showDimensions, setShowDimensions] = useState(mode === "editor");
   const [showHuman, setShowHuman] = useState(false);
   const [doorsOpen, setDoorsOpen] = useState(config.doorOpenAngle > 10);
   const [hudLabels, setHudLabels] = useState<
@@ -138,7 +143,8 @@ export function Viewport({
     renderer.toneMappingExposure = 1.05;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.domElement.style.touchAction = "none";
+    const initialTouch = mode === "editor" || isInteractiveDefault ? "none" : "pan-y";
+    renderer.domElement.style.touchAction = initialTouch;
     mount.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
@@ -147,11 +153,12 @@ export function Viewport({
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
     controls.autoRotate = mode === "showcase";
-    controls.autoRotateSpeed = 1.6;
+    controls.autoRotateSpeed = 1.4;
     controls.minDistance = 0.6;
     controls.maxDistance = 14;
     controls.maxPolarAngle = Math.PI / 2 + 0.04; // Jangan tembus ke bawah lantai
     controls.target.set(0, 0.9, 0);
+    controls.enabled = mode === "editor" || Boolean(isInteractiveDefault);
     controlsRef.current = controls;
 
     // 5. Lighting Setup
@@ -236,6 +243,17 @@ export function Viewport({
       }
     };
   }, []);
+
+  // Sinkronisasi status interaktivitas (Touch Guard pada mode showcase)
+  useEffect(() => {
+    const isControlActive = mode === "editor" || Boolean(isInteractiveDefault) || isInteractive;
+    if (controlsRef.current) {
+      controlsRef.current.enabled = isControlActive;
+    }
+    if (rendererRef.current?.domElement) {
+      rendererRef.current.domElement.style.touchAction = isControlActive ? "none" : "pan-y";
+    }
+  }, [mode, isInteractiveDefault, isInteractive]);
 
   // Update Mesh & Animasi saat config/result berubah
   useEffect(() => {
@@ -467,7 +485,7 @@ export function Viewport({
       <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
 
       {/* 3D HUD Dynamic Dimension Labels Overlay */}
-      {showDimensions && (
+      {showDimensions && mode === "editor" && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           {hudLabels.map((l) => (
             <div
@@ -490,6 +508,41 @@ export function Viewport({
               (~{result.stats.woodVolumeM3} m³ · {result.stats.estimatedWeightKg} kg)
             </span>
           </div>
+        </div>
+      )}
+
+      {/* Touch Guard Overlay for Showcase Mode on Mobile */}
+      {mode === "showcase" && !isInteractive && (
+        <div className="absolute inset-0 z-10 flex items-end justify-center pb-4 pointer-events-none">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsInteractive(true);
+            }}
+            className="pointer-events-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-paper/95 backdrop-blur-md border border-line text-xs font-medium text-ink shadow-sm hover:border-clay hover:text-clay active:scale-95 transition-all cursor-pointer"
+          >
+            <RotateCcw className="w-3.5 h-3.5 text-clay" />
+            <span>Ketuk untuk memutar 3D</span>
+          </button>
+        </div>
+      )}
+
+      {/* Interactive Mode Badge for Showcase */}
+      {mode === "showcase" && isInteractive && !isInteractiveDefault && (
+        <div className="absolute top-3 right-3 z-10 flex items-center gap-2 pointer-events-auto">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-paper/95 backdrop-blur-md border border-line text-[11px] font-medium text-moss shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-moss animate-pulse" />
+            <span>3D Aktif</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsInteractive(false)}
+            className="px-2.5 py-1 rounded-md bg-paper-2 border border-line text-[11px] font-medium text-ink hover:bg-paper-3 active:scale-95 transition-all shadow-2xs cursor-pointer"
+            title="Kunci kembali agar bisa scroll halaman"
+          >
+            Selesai
+          </button>
         </div>
       )}
 

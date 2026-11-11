@@ -1,4 +1,4 @@
-import { ProductCard } from "@/components/catalog/ProductCard";
+import { CatalogGrid } from "@/components/catalog/CatalogGrid";
 import { Button } from "@/components/ui/Button";
 import { swatchStyle } from "@/lib/swatch";
 import { Container, Eyebrow, SectionHeading } from "@/components/ui/Section";
@@ -125,10 +125,8 @@ export default async function HomePage() {
               Lihat semua produk
             </Button>
           </div>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {products.slice(0, 6).map((p) => (
-              <ProductCard key={p.id} product={p} materials={materials} />
-            ))}
+          <div className="mt-12">
+            <CatalogGrid products={products.slice(0, 6)} materials={materials} />
           </div>
         </Container>
       </section>

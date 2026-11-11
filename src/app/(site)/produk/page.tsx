@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ProductCard } from "@/components/catalog/ProductCard";
+import { CatalogGrid } from "@/components/catalog/CatalogGrid";
 import { Container, PageHeader } from "@/components/ui/Section";
 import { CATEGORIES } from "@/lib/configurator/labels";
 import { listMaterials, listProducts } from "@/lib/data/catalog";
@@ -50,10 +50,8 @@ export default async function CatalogPage({ searchParams }: { searchParams: Prom
         {products.length === 0 ? (
           <p className="py-24 text-center text-ink-soft">Belum ada produk pada kategori ini.</p>
         ) : (
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((p) => (
-              <ProductCard key={p.id} product={p} materials={materials} />
-            ))}
+          <div className="mt-8">
+            <CatalogGrid products={products} materials={materials} />
           </div>
         )}
       </Container>
