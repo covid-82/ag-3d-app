@@ -410,10 +410,10 @@ export function Viewport({
     const h = mount.clientHeight;
     const D = config.depth / 100;
 
-    // Dimensi per Sekat / Kolom (hanya tampilkan detail internal jika pintu dibuka agar HUD rapi)
-    const doorsAreOpen = (config.doorOpenAngle || 0) > 15 || config.doors === "open";
+    // Dimensi per Sekat / Kolom (hanya tampilkan detail internal jika rak terbuka atau pintu dibuka agar HUD rapi)
+    const shelvesAreVisible = config.doors === "none" || (config.doorOpenAngle || 0) > 15;
 
-    if (result.bayHuds && doorsAreOpen) {
+    if (result.bayHuds && shelvesAreVisible) {
       result.bayHuds.forEach((bay) => {
         const bx = bay.x / 100;
 
