@@ -6,7 +6,7 @@ import { db } from "@/db";
 import { materials, products, requests } from "@/db/schema";
 import { checkPassword, endSession, requireAdmin, startSession } from "@/lib/auth";
 import { KIND_SPECS, defaultColumns, isKind } from "@/lib/configurator/kinds";
-import type { DesignConfig, DimLimit, Limits, Pricing } from "@/lib/configurator/types";
+import type { DesignConfig, DimLimit, Kind, Limits, Pricing } from "@/lib/configurator/types";
 import { getProductById } from "@/lib/data/catalog";
 import { REQUEST_STATUSES } from "@/lib/data/requests";
 import { slugify } from "@/lib/format";
