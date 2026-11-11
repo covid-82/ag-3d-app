@@ -119,7 +119,13 @@ export async function saveProductAction(fd: FormData) {
   redirect(`/admin/produk/${id}?saved=1`);
 }
 
-const CATEGORY_BY_KIND = { wardrobe: "Lemari", bookshelf: "Rak", tvcabinet: "Kabinet", desk: "Meja" } as const;
+const CATEGORY_BY_KIND: Record<Kind, string> = {
+  wardrobe: "Lemari",
+  bookshelf: "Rak",
+  tvcabinet: "Kabinet",
+  desk: "Meja",
+  door: "Pintu & Kusen",
+};
 
 export async function createProductAction(fd: FormData) {
   await requireAdmin();
