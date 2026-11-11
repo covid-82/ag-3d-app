@@ -15,7 +15,7 @@ export function ControlGroup({
 }: {
   label: string;
   hint?: ReactNode;
-  children: ReactNode;
+  children?: ReactNode;
   aside?: ReactNode;
 }) {
   return (
