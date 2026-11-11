@@ -180,13 +180,17 @@ const PRODUCTS: SeedProduct[] = [
   },
 ];
 
+export const STATIC_MATERIALS = MATERIALS;
+export const STATIC_PRODUCTS = PRODUCTS;
+
 let seeding: Promise<void> | null = null;
 
 export function ensureSeed(): Promise<void> {
+  if (!process.env.DATABASE_URL) return Promise.resolve();
   if (!seeding) {
     seeding = run().catch((err) => {
       seeding = null;
-      throw err;
+      console.warn("[db] Seed skipped / database offline:", err?.message || err);
     });
   }
   return seeding;
