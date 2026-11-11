@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ProductCard } from "@/components/catalog/ProductCard";
+import { CatalogGrid } from "@/components/catalog/CatalogGrid";
 import { Button } from "@/components/ui/Button";
 import { Container, Eyebrow, SectionHeading } from "@/components/ui/Section";
 import { ShowcaseViewer } from "@/components/viewport/ShowcaseViewer";
@@ -78,17 +78,26 @@ export default async function ProductPage({ params }: Props) {
         </nav>
       </Container>
 
-      <Container className="grid gap-10 py-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:py-12">
-        <div className="lg:sticky lg:top-24 lg:self-start">
-          <div className="border border-ink">
-            <ShowcaseViewer kind={product.kind} config={config} materials={materials} className="aspect-[4/3] min-h-[300px] w-full" />
+      <Container className="grid gap-8 py-6 sm:gap-10 sm:py-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:py-12">
+        <div className="min-w-0 w-full lg:sticky lg:top-24 lg:self-start">
+          <div className="relative w-full max-w-full overflow-hidden border border-ink bg-[#f6f4f0]">
+            <ShowcaseViewer
+              kind={product.kind}
+              config={config}
+              materials={materials}
+              className="aspect-[4/3] sm:aspect-[16/11] w-full max-w-full"
+            />
+            <div className="pointer-events-none absolute left-3 top-3 z-10 max-w-[calc(100%-1.5rem)] bg-paper/95 backdrop-blur-md px-2.5 py-1.5 font-mono text-[11px] ring-1 ring-ink shadow-xs">
+              <p className="font-semibold text-ink truncate leading-tight">{product.name}</p>
+              <p className="text-ink-mute text-[10.5px] mt-0.5 font-medium leading-none">{formatDims(config)}</p>
+            </div>
           </div>
-          <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-mute">
+          <p className="mt-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-mute">
             Konfigurasi awal · {formatDims(config)}
           </p>
         </div>
 
-        <div>
+        <div className="min-w-0 w-full">
           <Eyebrow>{product.category}</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-medium leading-[1.05] tracking-tight sm:text-5xl">{product.name}</h1>
           <p className="mt-4 text-lg leading-relaxed text-ink-soft">{product.tagline}</p>
@@ -128,45 +137,47 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </Container>
 
-      <Container className="grid gap-12 border-t border-line py-16 lg:grid-cols-2 lg:gap-16">
-        <div>
+      <Container className="grid gap-10 border-t border-line py-12 sm:py-16 lg:grid-cols-2 lg:gap-16">
+        <div className="min-w-0 w-full">
           <SectionHeading eyebrow="Tentang model ini" title="Rancangannya" />
-          <p className="mt-5 text-[16px] leading-relaxed text-ink-soft">{product.description}</p>
+          <p className="mt-5 text-[15.5px] leading-relaxed text-ink-soft">{product.description}</p>
         </div>
-        <div>
+        <div className="min-w-0 w-full">
           <h2 className="font-mono text-[11px] uppercase tracking-[0.18em] text-clay">Batas ukuran</h2>
-          <table className="mt-4 w-full border-y border-ink text-[15px]">
-            <thead className="font-mono text-[11px] uppercase tracking-wider text-ink-mute">
-              <tr className="border-b border-line">
-                <th className="py-2 text-left font-medium">Dimensi</th>
-                <th className="py-2 text-right font-medium">Min</th>
-                <th className="py-2 text-right font-medium">Maks</th>
-                <th className="py-2 text-right font-medium">Awal</th>
-              </tr>
-            </thead>
-            <tbody className="font-mono">
-              {(
-                [
-                  ["Lebar", l.width],
-                  ["Tinggi", l.height],
-                  ["Kedalaman", l.depth],
-                ] as const
-              ).map(([k, v]) => (
-                <tr key={k} className="border-b border-line last:border-0">
-                  <td className="py-3 font-sans font-medium">{k}</td>
-                  <td className="py-3 text-right">{v.min} cm</td>
-                  <td className="py-3 text-right">{v.max} cm</td>
-                  <td className="py-3 text-right">{v.def} cm</td>
+          <div className="overflow-x-auto w-full max-w-full">
+            <table className="mt-4 w-full min-w-[260px] border-y border-ink text-[14px]">
+              <thead className="font-mono text-[11px] uppercase tracking-wider text-ink-mute">
+                <tr className="border-b border-line">
+                  <th className="py-2 text-left font-medium">Dimensi</th>
+                  <th className="py-2 text-right font-medium">Min</th>
+                  <th className="py-2 text-right font-medium">Maks</th>
+                  <th className="py-2 text-right font-medium">Awal</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          <h2 className="mt-10 font-mono text-[11px] uppercase tracking-[0.18em] text-clay">Yang bisa Anda atur</h2>
+              </thead>
+              <tbody className="font-mono">
+                {(
+                  [
+                    ["Lebar", l.width],
+                    ["Tinggi", l.height],
+                    ["Kedalaman", l.depth],
+                  ] as const
+                ).map(([k, v]) => (
+                  <tr key={k} className="border-b border-line last:border-0">
+                    <td className="py-2.5 font-sans font-medium">{k}</td>
+                    <td className="py-2.5 text-right">{v.min} cm</td>
+                    <td className="py-2.5 text-right">{v.max} cm</td>
+                    <td className="py-2.5 text-right">{v.def} cm</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h2 className="mt-8 font-mono text-[11px] uppercase tracking-[0.18em] text-clay">Yang bisa Anda atur</h2>
           <dl className="mt-4 divide-y divide-line border-y border-ink">
             {options.map(([k, v]) => (
-              <div key={k} className="grid grid-cols-[7rem_1fr] gap-3 py-3 text-[15px]">
+              <div key={k} className="grid grid-cols-[6rem_1fr] sm:grid-cols-[7rem_1fr] gap-2 py-3 text-[14.5px]">
                 <dt className="text-ink-mute">{k}</dt>
-                <dd className="font-medium">{v}</dd>
+                <dd className="font-medium break-words">{v}</dd>
               </div>
             ))}
           </dl>
@@ -177,10 +188,8 @@ export default async function ProductPage({ params }: Props) {
         <section className="border-t border-line bg-paper-2 py-16">
           <Container>
             <SectionHeading eyebrow="Model lain" title="Mungkin Anda juga butuh" />
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((p) => (
-                <ProductCard key={p.id} product={p} materials={materials} />
-              ))}
+            <div className="mt-10">
+              <CatalogGrid products={related} materials={materials} />
             </div>
           </Container>
         </section>

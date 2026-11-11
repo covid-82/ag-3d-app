@@ -44,9 +44,9 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="border-b border-line">
+      <section className="border-b border-line overflow-hidden">
         <Container className="grid gap-10 pb-14 pt-10 lg:grid-cols-[1fr_1.08fr] lg:items-center lg:gap-14 lg:pb-20 lg:pt-16">
-          <div className="fade-up">
+          <div className="min-w-0 fade-up">
             <Eyebrow>{SITE.descriptor}</Eyebrow>
             <h1 className="mt-4 font-display text-[clamp(2.6rem,6.2vw,5rem)] font-medium leading-[0.98] tracking-[-0.02em]">
               Furnitur yang pas, <span className="italic text-clay">sampai ke sentimeter.</span>
@@ -69,7 +69,7 @@ export default async function HomePage() {
                 [`${materials.length}`, `material & warna (${woods} serat kayu)`],
                 ["3D", "putar, zoom, buka laci"],
               ].map(([v, l]) => (
-                <div key={l}>
+                <div key={l} className="min-w-0">
                   <dt className="font-display text-3xl font-medium">{v}</dt>
                   <dd className="mt-1 text-[12.5px] leading-snug text-ink-soft">{l}</dd>
                 </div>
@@ -78,19 +78,20 @@ export default async function HomePage() {
           </div>
 
           {hero && heroPreview && (
-            <div className="relative">
-              <div className="relative border border-ink">
+            <div className="min-w-0 w-full relative">
+              <div className="relative w-full max-w-full overflow-hidden border border-ink bg-[#f6f4f0]">
                 <ShowcaseViewer
                   kind={hero.kind}
                   config={heroPreview.config}
                   materials={materials}
-                  className="aspect-[5/4] min-h-[320px] w-full sm:aspect-[4/3] lg:aspect-[5/4]"
+                  className="aspect-[4/3] sm:aspect-[16/11] lg:aspect-[5/4] w-full max-w-full"
                 />
-                <div className="pointer-events-none absolute left-3 top-3 bg-paper px-2.5 py-1.5 font-mono text-[11px] ring-1 ring-ink">
-                  {hero.name} · {formatDims(heroPreview.config)}
+                <div className="pointer-events-none absolute left-3 top-3 z-10 max-w-[calc(100%-1.5rem)] bg-paper/95 backdrop-blur-md px-2.5 py-1.5 font-mono text-[11px] ring-1 ring-ink shadow-xs">
+                  <p className="font-semibold text-ink truncate leading-tight">{hero.name}</p>
+                  <p className="text-ink-mute text-[10.5px] mt-0.5 font-medium leading-none">{formatDims(heroPreview.config)}</p>
                 </div>
               </div>
-              <p className="mt-3 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.14em] text-ink-mute">
+              <p className="mt-3 flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-mute">
                 <span>Pratinjau langsung, bukan gambar statis</span>
                 <a href={`/konfigurator/${hero.slug}`} className="text-clay hover:underline">
                   Buka konfigurator →

@@ -10,7 +10,7 @@ export function ShowcaseViewer({
   kind,
   config,
   materials,
-  className,
+  className = "",
 }: {
   kind: Kind;
   config: DesignConfig;
@@ -18,5 +18,15 @@ export function ShowcaseViewer({
   className?: string;
 }) {
   const result = useMemo(() => buildParts(kind, config), [kind, config]);
-  return <Viewport mode="showcase" config={config} result={result} materials={materials} className={className} />;
+  return (
+    <div className={`relative w-full max-w-full overflow-hidden ${className}`}>
+      <Viewport
+        mode="showcase"
+        config={config}
+        result={result}
+        materials={materials}
+        className="w-full h-full"
+      />
+    </div>
+  );
 }

@@ -92,7 +92,7 @@ export function Quick3DModal({ product, materials, onClose }: Props) {
         </div>
 
         {/* 3D Canvas Viewport (Single WebGL Instance) */}
-        <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full min-h-[250px] max-h-[360px] bg-[#f6f4f0] border-b border-line overflow-hidden">
+        <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full max-h-[360px] bg-[#f6f4f0] border-b border-line overflow-hidden">
           <Viewport
             mode="showcase"
             isInteractiveDefault={true}

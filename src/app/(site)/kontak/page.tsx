@@ -27,7 +27,8 @@ export default function ContactPage() {
             <Button
               href={whatsappLink("Halo Ukur, saya ingin bertanya tentang furnitur custom.")}
               external
-              variant="accent"
+              variant="primary"
+              size="md"
               className="mt-5"
             >
               Chat sekarang

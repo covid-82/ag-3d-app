@@ -117,8 +117,8 @@ export function Viewport({
     const mount = mountRef.current;
     if (!mount) return;
 
-    const width = mount.clientWidth || 600;
-    const height = mount.clientHeight || 500;
+    const width = Math.max(10, Math.floor(mount.clientWidth || 360));
+    const height = Math.max(10, Math.floor(mount.clientHeight || 270));
 
     // 1. Scene
     const scene = new THREE.Scene();
@@ -145,6 +145,10 @@ export function Viewport({
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     const initialTouch = mode === "editor" || isInteractiveDefault ? "none" : "pan-y";
     renderer.domElement.style.touchAction = initialTouch;
+    renderer.domElement.style.display = "block";
+    renderer.domElement.style.width = "100%";
+    renderer.domElement.style.height = "100%";
+    renderer.domElement.style.maxWidth = "100%";
     mount.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
@@ -477,12 +481,12 @@ export function Viewport({
 
   return (
     <div
-      className={`relative w-full h-full bg-[#f6f4f0] select-none overflow-hidden ${
+      className={`relative w-full h-full max-w-full bg-[#f6f4f0] select-none overflow-hidden ${
         className || ""
       }`}
     >
       {/* 3D WebGL Canvas Mount Container */}
-      <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
+      <div ref={mountRef} className="w-full h-full max-w-full overflow-hidden cursor-grab active:cursor-grabbing" />
 
       {/* 3D HUD Dynamic Dimension Labels Overlay */}
       {showDimensions && mode === "editor" && (
