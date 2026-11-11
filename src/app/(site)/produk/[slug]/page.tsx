@@ -103,15 +103,15 @@ export default async function ProductPage({ params }: Props) {
             </p>
           </div>
 
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <Button href={`/konfigurator/${product.slug}`} variant="accent" size="lg" className="flex-1">
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <Button href={`/konfigurator/${product.slug}`} variant="primary" size="md">
               Konfigurasi sekarang
             </Button>
             <Button
               href={whatsappLink(`Halo Ukur, saya tertarik dengan ${product.name}. Boleh bertanya dulu?`)}
               external
               variant="outline"
-              size="lg"
+              size="md"
             >
               Tanya via WhatsApp
             </Button>

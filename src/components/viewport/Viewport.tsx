@@ -410,43 +410,49 @@ export function Viewport({
     const h = mount.clientHeight;
     const D = config.depth / 100;
 
-    // Dimensi per Sekat / Kolom
-    result.bayHuds?.forEach((bay) => {
-      const bx = bay.x / 100;
+    // Dimensi per Sekat / Kolom (hanya tampilkan detail internal jika pintu dibuka agar HUD rapi)
+    const doorsAreOpen = (config.doorOpenAngle || 0) > 15 || config.doors === "open";
 
-      // Label Lebar Kolom (di bawah ambalan)
-      const v = new THREE.Vector3(bx, (bay.bottomY + 4) / 100, D / 2 + 0.05);
-      v.project(camera);
-      if (v.z < 1) {
-        labels.push({
-          id: `bay-w-${bay.colIndex}`,
-          text: `${bay.widthCm} cm`,
-          x: ((v.x + 1) * w) / 2,
-          y: ((-v.y + 1) * h) / 2,
-          visible: true,
-        });
-      }
+    if (result.bayHuds && doorsAreOpen) {
+      result.bayHuds.forEach((bay) => {
+        const bx = bay.x / 100;
 
-      // Label Tinggi Tiap Celah Rak
-      if (bay.shelfHeightsCm && bay.shelfHeightsCm.length > 1) {
-        const spanH = (bay.topY - bay.bottomY) / 100;
-        const stepH = spanH / bay.shelfHeightsCm.length;
-        bay.shelfHeightsCm.forEach((sh, sIdx) => {
-          const sy = bay.bottomY / 100 + stepH * (sIdx + 0.5);
-          const sv = new THREE.Vector3(bx, sy, D / 2 + 0.05);
-          sv.project(camera);
-          if (sv.z < 1) {
+        // Label Lebar Kolom jika ada lebih dari 1 kolom
+        if (result.bayHuds && result.bayHuds.length > 1) {
+          const v = new THREE.Vector3(bx, (bay.bottomY + 4) / 100, D / 2 + 0.05);
+          v.project(camera);
+          if (v.z < 1) {
             labels.push({
-              id: `shelf-${bay.colIndex}-${sIdx}`,
-              text: `${sh} cm`,
-              x: ((sv.x + 1) * w) / 2,
-              y: ((-sv.y + 1) * h) / 2,
+              id: `bay-w-${bay.colIndex}`,
+              text: `${bay.widthCm} cm`,
+              x: ((v.x + 1) * w) / 2,
+              y: ((-v.y + 1) * h) / 2,
               visible: true,
             });
           }
-        });
-      }
-    });
+        }
+
+        // Label Tinggi Tiap Celah Rak (hanya saat pintu dibuka)
+        if (bay.shelfHeightsCm && bay.shelfHeightsCm.length > 1) {
+          const spanH = (bay.topY - bay.bottomY) / 100;
+          const stepH = spanH / bay.shelfHeightsCm.length;
+          bay.shelfHeightsCm.forEach((sh, sIdx) => {
+            const sy = bay.bottomY / 100 + stepH * (sIdx + 0.5);
+            const sv = new THREE.Vector3(bx, sy, D / 2 + 0.05);
+            sv.project(camera);
+            if (sv.z < 1) {
+              labels.push({
+                id: `shelf-${bay.colIndex}-${sIdx}`,
+                text: `${sh} cm`,
+                x: ((sv.x + 1) * w) / 2,
+                y: ((-sv.y + 1) * h) / 2,
+                visible: true,
+              });
+            }
+          });
+        }
+      });
+    }
 
     setHudLabels(labels);
   };

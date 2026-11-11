@@ -91,7 +91,7 @@ export default function GuidePage() {
 
       <Container className="flex flex-col items-start gap-6 py-16 md:flex-row md:items-center md:justify-between">
         <h2 className="max-w-lg font-display text-3xl font-medium leading-tight sm:text-4xl">Siap mencoba? Butuh sekitar 5 menit.</h2>
-        <Button href="/produk" variant="accent" size="lg">
+        <Button href="/produk" variant="primary" size="md">
           Pilih model
         </Button>
       </Container>

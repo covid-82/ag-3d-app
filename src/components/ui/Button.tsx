@@ -1,36 +1,45 @@
 import Link from "next/link";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-type Variant = "primary" | "accent" | "outline" | "ghost";
-type Size = "sm" | "md" | "lg";
+export type ButtonVariant = "primary" | "accent" | "outline" | "ghost" | "secondary";
+export type ButtonSize = "sm" | "md" | "lg";
 
-const VARIANT: Record<Variant, string> = {
-  primary: "bg-ink text-paper hover:bg-moss border border-ink",
-  accent: "bg-clay text-white hover:bg-clay-dark border border-clay",
-  outline: "bg-transparent text-ink border border-ink hover:bg-ink hover:text-paper",
-  ghost: "bg-transparent text-ink border border-transparent hover:bg-paper-2",
+const VARIANT: Record<ButtonVariant, string> = {
+  primary: "bg-clay text-white hover:bg-clay-dark border border-clay shadow-2xs active:scale-[0.98]",
+  accent: "bg-clay text-white hover:bg-clay-dark border border-clay shadow-2xs active:scale-[0.98]",
+  outline: "bg-transparent text-clay border border-clay hover:bg-clay/10 active:scale-[0.98]",
+  secondary: "bg-paper-2 text-ink border border-line hover:bg-paper-3 active:scale-[0.98]",
+  ghost: "bg-transparent text-ink border border-transparent hover:bg-paper-2 active:scale-[0.98]",
 };
 
-const SIZE: Record<Size, string> = {
-  sm: "h-9 px-3.5 text-sm",
-  md: "h-11 px-5 text-[15px]",
-  lg: "h-13 px-7 text-base",
+const SIZE: Record<ButtonSize, string> = {
+  sm: "h-8 px-3.5 text-xs font-medium",
+  md: "h-9.5 px-4.5 text-sm font-medium",
+  lg: "h-10.5 px-5.5 text-sm font-medium",
 };
 
-export function buttonClass(variant: Variant = "primary", size: Size = "md", extra = "") {
-  return `inline-flex items-center justify-center gap-2 rounded-sm font-medium transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50 select-none whitespace-nowrap ${VARIANT[variant]} ${SIZE[size]} ${extra}`;
+export function buttonClass(variant: ButtonVariant = "primary", size: ButtonSize = "md", extra = "") {
+  return `inline-flex items-center justify-center gap-2 rounded-md font-medium transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50 select-none whitespace-nowrap w-auto shrink-0 ${VARIANT[variant]} ${SIZE[size]} ${extra}`;
 }
 
-interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> {
-  variant?: Variant;
-  size?: Size;
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   href?: string;
   external?: boolean;
   className?: string;
   children: ReactNode;
 }
 
-export function Button({ variant, size, href, external, className, children, ...rest }: Props) {
+export function Button({
+  variant = "primary",
+  size = "md",
+  href,
+  external,
+  className = "",
+  children,
+  ...rest
+}: ButtonProps) {
   const cls = buttonClass(variant, size, className);
   if (href) {
     if (external) {

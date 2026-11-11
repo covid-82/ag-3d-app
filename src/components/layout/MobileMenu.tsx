@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { NAV } from "@/lib/site";
-import { buttonClass } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -23,7 +23,7 @@ export function MobileMenu() {
         aria-expanded={open}
         aria-controls="mobile-nav"
         aria-label={open ? "Tutup menu" : "Buka menu"}
-        className="grid h-11 w-11 place-items-center rounded-sm border border-ink"
+        className="grid h-10 w-10 place-items-center rounded-md border border-line text-ink hover:bg-paper-2 active:scale-95 transition-all"
       >
         <span className="relative block h-3.5 w-5">
           <span className={`absolute left-0 h-[2px] w-5 bg-ink transition-all ${open ? "top-1.5 rotate-45" : "top-0"}`} />
@@ -42,7 +42,7 @@ export function MobileMenu() {
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between py-5 font-display text-3xl font-medium"
+                  className="flex items-center justify-between py-5 font-display text-2xl font-medium text-ink"
                 >
                   {item.label}
                   <span aria-hidden className="text-clay">→</span>
@@ -50,9 +50,17 @@ export function MobileMenu() {
               </li>
             ))}
           </ul>
-          <Link href="/produk" onClick={() => setOpen(false)} className={buttonClass("accent", "lg", "mt-8 w-full")}>
-            Mulai mendesain
-          </Link>
+          <div className="mt-8">
+            <Button
+              href="/produk"
+              variant="primary"
+              size="md"
+              onClick={() => setOpen(false)}
+              className="w-full justify-center"
+            >
+              Mulai mendesain
+            </Button>
+          </div>
         </nav>
       )}
     </div>

@@ -167,22 +167,22 @@ export function ConfiguratorShell({ product, materials, initial }: Props) {
         </div>
 
         {/* Tengah: Realtime Live Price Ticker (Supernata Style) */}
-        <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-paper-2 border border-line shadow-2xs">
+        <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 rounded-xl bg-paper-2 border border-line shadow-2xs whitespace-nowrap shrink-0">
           <span className="text-[10px] uppercase tracking-wider text-ink-mute font-mono hidden md:inline">
             Estimasi
           </span>
-          <span className="font-mono text-xs sm:text-sm font-bold text-moss">
+          <span className="font-mono text-xs sm:text-sm font-bold text-moss whitespace-nowrap">
             {formatRupiahShort(estimate.min)}
           </span>
         </div>
 
         {/* Sisi Kanan: Undo/Redo & CTA Button */}
-        <div className="flex items-center gap-1 sm:gap-1.5">
+        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
           <button
             type="button"
             onClick={undo}
             disabled={!canUndo}
-            className="w-9 h-9 rounded-lg border border-line flex items-center justify-center text-ink hover:border-ink disabled:opacity-30 disabled:pointer-events-none transition-all"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-md border border-line flex items-center justify-center text-ink hover:border-ink disabled:opacity-30 disabled:pointer-events-none transition-all"
             title="Urungkan (Ctrl+Z)"
           >
             <Undo2 className="w-4 h-4" />
@@ -191,19 +191,19 @@ export function ConfiguratorShell({ product, materials, initial }: Props) {
             type="button"
             onClick={redo}
             disabled={!canRedo}
-            className="w-9 h-9 rounded-lg border border-line flex items-center justify-center text-ink hover:border-ink disabled:opacity-30 disabled:pointer-events-none transition-all"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-md border border-line flex items-center justify-center text-ink hover:border-ink disabled:opacity-30 disabled:pointer-events-none transition-all"
             title="Ulangi (Ctrl+Shift+Z)"
           >
             <Redo2 className="w-4 h-4" />
           </button>
 
           <Button
-            variant="accent"
+            variant="primary"
             size="sm"
             onClick={handleWhatsApp}
-            className="h-9 px-3 text-xs sm:text-sm flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20ba5a] text-white border-none shadow-xs ml-1"
+            className="h-8 px-2.5 sm:px-3 text-xs flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20ba5a] text-white border-none shadow-xs ml-1"
           >
-            <MessageCircle className="w-4 h-4 fill-current hidden sm:inline" />
+            <MessageCircle className="w-3.5 h-3.5 fill-current hidden sm:inline" />
             <span>Pesan</span>
           </Button>
         </div>
@@ -360,7 +360,7 @@ export function ConfiguratorShell({ product, materials, initial }: Props) {
                 {formatRupiahShort(estimate.min)} – {formatRupiahShort(estimate.max)}
               </p>
             </div>
-            <Button variant="accent" size="sm" onClick={() => setQuoteOpen(true)}>
+            <Button variant="primary" size="sm" onClick={() => setQuoteOpen(true)}>
               Minta Penawaran
             </Button>
           </div>

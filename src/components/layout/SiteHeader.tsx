@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { NAV } from "@/lib/site";
-import { buttonClass } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
 
@@ -21,9 +21,11 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <Link href="/produk" className={buttonClass("primary", "sm", "hidden md:inline-flex")}>
-            Mulai mendesain
-          </Link>
+          <div className="hidden md:block">
+            <Button href="/produk" variant="primary" size="sm">
+              Mulai mendesain
+            </Button>
+          </div>
           <MobileMenu />
         </div>
       </div>

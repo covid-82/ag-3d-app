@@ -55,11 +55,11 @@ export default async function HomePage() {
               Pilih model, atur ukuran dan isinya, lalu lihat hasilnya langsung dalam 3D sebelum satu papan pun dipotong.
               Kirim desain Anda ke workshop kami untuk mendapat penawaran.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button href="/produk" variant="accent" size="lg">
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Button href="/produk" variant="primary" size="md">
                 Mulai mendesain
               </Button>
-              <Button href="/panduan-pemesanan" variant="outline" size="lg">
+              <Button href="/panduan-pemesanan" variant="outline" size="md">
                 Lihat cara pemesanan
               </Button>
             </div>
@@ -193,7 +193,7 @@ export default async function HomePage() {
           <h2 className="max-w-xl font-display text-4xl font-medium leading-[1.05] tracking-tight sm:text-5xl">
             Ruang Anda punya ukurannya sendiri. Kami ikuti.
           </h2>
-          <Button href="/produk" variant="accent" size="lg">
+          <Button href="/produk" variant="primary" size="md">
             Mulai mendesain
           </Button>
         </Container>
