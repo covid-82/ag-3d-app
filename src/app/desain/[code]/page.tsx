@@ -1,5 +1,5 @@
 import { notFound, redirect } from "next/navigation";
-import { encodeConfig } from "@/lib/configurator/share";
+import { decodeConfig, encodeConfig } from "@/lib/configurator/share";
 import { getRequestByCode } from "@/lib/data/requests";
 
 export const dynamic = "force-dynamic";
